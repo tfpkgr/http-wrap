@@ -45,15 +45,8 @@ export default function HttpWrap(callback: HttpWrapCallback): HttpWrapReturn {
 			const result = await callback(req, res);
 
 			// If the result is an error, pass it to the next middleware.
-			if (
-				result instanceof Error ||
-				(result &&
-					typeof result === 'object' &&
-					(result as Error)?.name?.includes?.('Error'))
-			) {
-				// Log the error with additional context for better debugging.
-				console.error(`Error in ${req.method} ${req.url}:`, result);
-				return next(result);
+			if (result instanceof Error) {
+				throw result;
 			}
 
 			// If the response is already sent, do not call next.
