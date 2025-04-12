@@ -1,7 +1,7 @@
 {
-	"name": "@tfpkgr/npm-template",
+	"name": "@tfpkgr/http-wrap",
 	"version": "0.0.0",
-	"description": "Package description",
+	"description": "A simple wrapper for Express middlewares that catches errors and returns standardized JSON responses.",
 	"main": "dist/index.js",
 	"module": "dist/index.mjs",
 	"types": "dist/index.d.mts",
@@ -14,11 +14,11 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/tfpkgr/npm-template.git"
+		"url": "git+https://github.com/tfpkgr/http-wrap.git"
 	},
 	"keywords": [
 		"tfpkgr",
-		"npm-template"
+		"http-wrap"
 	],
 	"author": "tfpkgr",
 	"publishConfig": {
@@ -36,13 +36,17 @@
 	],
 	"license": "MIT",
 	"bugs": {
-		"url": "https://github.com/tfpkgr/npm-template/issues"
+		"url": "https://github.com/tfpkgr/http-wrap/issues"
 	},
-	"homepage": "https://github.com/tfpkgr/npm-template#readme",
+	"homepage": "https://github.com/tfpkgr/http-wrap#readme",
 	"devDependencies": {
+		"@types/express": "^5.0.1",
 		"@types/node": "^22.14.1",
 		"gts": "^6.0.2",
 		"tsup": "^8.4.0",
 		"typescript": "^5.8.3"
+	},
+	"dependencies": {
+		"express": "^5.1.0"
 	}
 }

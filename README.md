@@ -1,97 +1,70 @@
-# @tfpkgr/package-name
+# @tfpkgr/http-wrap
 
-A standardized TypeScript-based npm package template with automatic bundling using **tsup**.
+## Overview
+
+`@tfpkgr/http-wrap` is a utility package designed to simplify error handling in Express.js route handlers. It wraps your route logic in a function that ensures errors are caught and passed to the next middleware, improving code readability and maintainability.
+
+## Installation
+
+Install the package using npm:
+
+```bash
+npm install @tfpkgr/http-wrap
+```
+
+## Usage
+
+Here is an example of how to use the `HttpWrap` utility in your Express application:
+
+```typescript
+import express from 'express';
+import {HttpWrap} from '@tfpkgr/http-wrap';
+
+const app = express();
+
+// Define a route using HttpWrap
+app.get(
+	'/example',
+	HttpWrap(async (req, res) => {
+		// Your route logic here
+		const data = {message: 'Hello, world!'};
+		res.json(data);
+	}),
+);
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+	console.error(err);
+	res.status(500).json({error: 'Internal Server Error'});
+});
+
+app.listen(3000, () => {
+	console.log('Server is running on port 3000');
+});
+```
 
 ## Features
 
--   **TypeScript support**: Ensures type safety and maintainability.
--   **Automatic bundling**: Uses `tsup` to bundle TypeScript into CommonJS (CJS) and ECMAScript Module (ESM) formats.
--   **Google TypeScript Style**: Enforces code consistency with `gts`.
--   **GitHub Packages Registry**: Pre-configured for publishing to GitHub Packages.
--   **Linting & Formatting**: Includes `gts` for linting and auto-fixing code style issues.
--   **GitHub Actions**: Automated publishing workflow on release.
+-   Simplifies error handling in Express.js route handlers.
+-   Ensures unhandled errors are passed to the next middleware.
+-   Improves code readability and maintainability.
 
-## Getting Started
+## API
 
-### 1. Clone the Repository
+### `HttpWrap(callback: HttpWrapCallback): HttpWrapReturn`
 
-```sh
-npx degit tfpkgr/template-npm my-new-package
-cd my-new-package
-```
+Wraps an Express route handler with error handling.
 
-### 2. Rename the Package
+#### Parameters
 
-Before installing dependencies, update the `name` field in `package.json` to your package name. This ensures `package-lock.json` is correctly updated when you install dependencies.
+-   `callback` (Function): The route handler logic to be wrapped. It takes the following parameters:
+    -   `req` (Request): The Express Request object.
+    -   `res` (Response): The Express Response object.
 
-### 3. Install Dependencies
+#### Returns
 
-```sh
-npm install
-```
-
-### 4. Customize Package
-
--   Update `package.json` with the appropriate `description` and `author`.
--   Modify `src/index.ts` to implement your package functionality.
-
-### 5. Build the Package
-
-```sh
-npm run build
-```
-
-This will generate the `dist/` directory containing the compiled files.
-
-### 6. Lint & Fix Code
-
-```sh
-npm run lint  # Check for issues
-npm run fix   # Auto-fix issues
-```
-
-### 7. Publish to GitHub Packages
-
-#### Automatic Publishing on Release
-
-This repository includes a GitHub Actions workflow (`.github/workflows/publish.yaml`) that automatically publishes the package when a release is created.
-
-#### Manual Publishing
-
-1. Authenticate with GitHub:
-    ```sh
-    npm login --registry=https://npm.pkg.github.com
-    ```
-2. Publish the package:
-    ```sh
-    npm publish
-    ```
-
-## File Structure
-
-```
-my-new-package/
-├── src/              # Source TypeScript files
-│   ├── index.ts      # Main entry point
-├── dist/             # Compiled output (ignored in Git)
-├── .github/workflows/ # GitHub Actions workflow for publishing
-│   ├── publish.yaml  # Publish package on release
-├── tsconfig.json     # TypeScript configuration
-├── tsconfig.build.json # Build-specific TypeScript config
-├── tsup.config.ts    # tsup bundler config
-├── package.json      # Project metadata & dependencies
-├── README.md         # Project documentation
-├── LICENSE           # License file
-```
-
-## [Multiple Exports](docs/multiple-exports.md)
-
-If your package has multiple exports, refer to [this guide](docs/multiple-exports.md) for configuration details.
+-   A function that can be used as an Express middleware.
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
-
----
-
-🚀 Built with ❤️ by MyDeck
+This package is licensed under the MIT License. See the [LICENSE](./LICENSE) file for more details.
